@@ -17,7 +17,7 @@ public class TestMatrix {
         }
             for(int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    System.out.printf("Enter number [%d][%d]: ", i + 1);
+                    System.out.printf("Enter number [%d][%d]: ", i , j);
                     mat2[i][j] = s.nextInt();
 
                 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import java.util.Scanner;
 
 class Operation {
@@ -36,7 +35,7 @@ class Arithmetic {
                 int a = s.nextInt();
                 System.out.print("Enter second number: ");
                 int b = s.nextInt();
-                Operation op = new Operation();
+                Operations op = new Operations();
                 switch (choice) {
                     case 1 -> System.out.println("The Sum is " + op.add(a, b));
                     case 2 -> System.out.println("The Difference is " + op.sub(a, b));
@@ -55,10 +54,8 @@ class Arithmetic {
         }
     }
 }
-=======
-import java.util.Scanner;
 
-class Operation {
+class Operations {
     public int add(int n1, int n2) {
         return n1 + n2;
     }
@@ -92,7 +89,7 @@ class Calculator {
                 int a = s.nextInt();
                 System.out.print("Enter second number: ");
                 int b = s.nextInt();
-                Operation op = new Operation();
+                Operations op = new Operations();
                 switch (choice) {
                     case 1 -> System.out.println("The Sum is " + op.add(a, b));
                     case 2 -> System.out.println("The Difference is " + op.sub(a, b));
@@ -111,4 +108,4 @@ class Calculator {
         }
     }
 }
->>>>>>> 68decb54c26a046ca6acb5621d843a19b4091149
+

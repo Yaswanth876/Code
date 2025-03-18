@@ -52,6 +52,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Abs.executor": "Run",
+    "Application.BankDemo.executor": "Run",
+    "Application.FootballSerialization.executor": "Run",
     "Application.InhOver.executor": "Run",
     "Application.InheritanceOverriding.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Birthday Infinity Quest - Agent Induja V</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a3a 50%, #2a2a5a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated starry background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 69, 0, 0.1));
+            border: 2px solid #FFD700;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: shine 4s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #FFD700, #FF4500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            color: #C0C0C0;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Mission Briefing */
+        .mission-briefing {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.9), rgba(50, 50, 80, 0.9));
+            border: 2px solid #4A90E2;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+            position: relative;
+        }
+        
+        .mission-briefing::before {
+            content: '🛡️';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: inherit;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+        
+        .briefing-header {
+            color: #4A90E2;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .briefing-text {
+            color: #E0E0E0;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        /* Progress Display */
+        .progress-container {
+            background: rgba(0, 0, 0, 0.5);
+            height: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #FFD700;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #FFD700, #00FF00);
+            height: 100%;
+            width: 0;
+            transition: width 0.8s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: #FFD700;
+            font-weight: 700;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Quest Sections */
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .quest-section {
+            background: linear-gradient(135deg, rgba(40, 40, 70, 0.9), rgba(60, 60, 90, 0.9));
+            border: 2px solid #666;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .quest-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .quest-section.active {
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+        }
+        
+        .quest-section.completed {
+            border-color: #00FF00;
+            background: linear-gradient(135deg, rgba(0, 100, 0, 0.3), rgba(0, 150, 0, 0.3));
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .quest-section.completed::after {
+            content: '✅';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .section-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .section-title {
+            color: #FFD700;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .section-subtitle {
+            color: #C0C0C0;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .section-status {
+            color: #00FF00;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+        
+        .view-clue-btn {
+            background: linear-gradient(45deg, #4A90E2, #6AB7FF);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .view-clue-btn:hover {
+            background: linear-gradient(45deg, #6AB7FF, #4A90E2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        .clue-text {
+            color: #E0E0E0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0;
+            border-radius: 8px;
+            border-left: 3px solid #FFD700;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .quest-section.clue-revealed .clue-text {
+            opacity: 1;
+            max-height: 200px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        
+        .mark-found-btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: none;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+            font-size: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        
+        .quest-section.clue-revealed .mark-found-btn {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+        
+        .mark-found-btn:hover {
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+        
+        .gift-found {
+            color: #00FF00;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 15px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s ease;
+            background: rgba(0, 255, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #00FF00;
+        }
+        
+        .quest-section.completed .gift-found {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Mission Complete Screen */
+        .mission-complete {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .mission-complete.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .complete-title {
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #FFD700, #FF4500, #00FF00, #4A90E2);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: rainbow 3s infinite;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .complete-message {
+            color: #FFD700;
+            font-size: 1.3rem;
+            text-align: center;
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .birthday-wish {
+            color: #FF69B4;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            font-style: italic;
+        }
+        
+        .fireworks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: explode 2s infinite;
+        }
+        
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+        
+        /* Agent Badge */
+        .agent-badge {
+            background: linear-gradient(135deg, #4A90E2, #FFD700);
+            border: 3px solid #FFD700;
+            border-radius: 50px;
+            padding: 20px 30px;
+            text-align: center;
+            margin: 30px auto;
+            max-width: 400px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .agent-badge::before {
+            content: '🛡️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            background: linear-gradient(135deg, #4A90E2, #FFD700);
+            padding: 8px;
+            border-radius: 50%;
+            border: 2px solid #FFD700;
+        }
+        
+        .badge-text {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-top: 15px;
+        }
+        
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .mute-button {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: #FFD700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mute-button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .quest-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .quest-section {
+                padding: 20px;
+            }
+            
+            .mission-briefing {
+                padding: 20px;
+            }
+            
+            .complete-message, .birthday-wish {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+        }
+        
+        /* Special Effects */
+        .sparkle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            animation: sparkle-fade 1s ease-out forwards;
+        }
+        
+        @keyframes sparkle-fade {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg);
+            }
+        }
+        
+        /* Error handling styles */
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff4444;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #ff6666;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="audio-controls">
+        <button class="mute-button" id="muteButton" title="Toggle Sound">🔊</button>
+    </div>
+    
+    <div class="container">
+        <div class="hero-banner">
+            <h1 class="hero-title">THE BIRTHDAY INFINITY QUEST</h1>
+            <p class="hero-subtitle">A Marvel-ous Adventure for Agent Induja V</p>
+        </div>
+        
+        <div class="mission-briefing">
+            <h2 class="briefing-header">🕵️ MISSION BRIEFING - CLASSIFIED</h2>
+            <p class="briefing-text">
+                <strong>From: Director Nick Fury</strong><br><br>
+                Agent Induja V, we've detected powerful birthday energy signatures across multiple locations on this special day - May 24th, 2025. 
+                Your mission: infiltrate each location sequentially, decode the hidden clues, and collect the mysterious gifts in the correct order.
+                Each location will unlock only after completing the previous one.
+                <br><br><em>"Happy 16th Birthday, Agent. I'm counting on you to bring this party together. The universe needs heroes like you." - N. Fury</em>
+            </p>
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            An error occurred. Please refresh the page and try again.
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Mission Progress: 0/5 Locations Secured</div>
+        
+        <div class="quest-grid" id="questGrid">
+            <!-- Quest 1: Temple of Time - Always visible first -->
+            <div class="quest-section visible active" data-order="1">
+                <span class="section-icon">🔮</span>
+                <h3 class="section-title">TEMPLE OF TIME</h3>
+                <p class="section-subtitle">Doctor Strange's Domain</p>
+                <div class="section-status">🔓 LOCATION ACCESSIBLE</div>
+                <button class="view-clue-btn" onclick="viewClue(1)">🔍 VIEW CLUE</button>
+                <div class="clue-text">
+                    "The Temple of Time holds great peace and power. Go where we fold our hands and whisper each hour."
+                </div>
+                <button class="mark-found-btn" onclick="markGiftFound(1)">✅ MARK GIFT AS FOUND</button>
+                <div class="gift-found">💥 Gift Found! Next Location Unlocked!</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mission-complete" id="missionComplete">
+        <div class="fireworks" id="fireworks"></div>
+        <h1 class="complete-title">🎉 MISSION COMPLETE 🎉</h1>
+        <div class="complete-message">
+            Congratulations, Agent Induja V! You've successfully completed The Birthday Infinity Quest. 
+            The universe is safe, and your special day celebration can begin!
+        </div>
+        <div class="birthday-wish">
+            "Happy 16th Birthday, Induja V!<br>
+            You're an Honorary Avenger and our family's brightest star."
+        </div>
+        <div style="color: #4A90E2; font-size: 1.1rem; text-align: center; margin-top: 20px;">
+            🎂 May 24th, 2025 • Age 16 🎂
+        </div>
+    </div>
+    
+    <script>
+        // Game state with better error handling
+        let completedQuests = 0;
+        const totalQuests = 5;
+        let audioEnabled = true;
+        let audioContext = null;
+        
+        // Get DOM elements with error checking
+        const questGrid = document.getElementById('questGrid');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const missionComplete = document.getElementById('missionComplete');
+        const muteButton = document.getElementById('muteButton');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        // Error handling function
+        function handleError(error, context = '') {
+            console.error(`Error in ${context}:`, error);
+            if (errorMessage) {
+                errorMessage.textContent = `Error in ${context}: ${error.message}`;
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Quest data
+        const questData = [
+            {
+                order: 1,
+                icon: '🔮',
+                title: 'TEMPLE OF TIME',
+                subtitle: 'Doctor Strange\'s Domain',
+                clue: 'The Temple of Time holds great peace and power. Go where we fold our hands and whisper each hour.'
+            },
+            {
+                order: 2,
+                icon: '⚡',
+                title: 'ASGARDIAN FEAST HALL',
+                subtitle: 'Thor\'s Mighty Domain',
+                clue: 'I love food more than my hammer! Check where Amma makes magic with glamour.'
+            },
+            {
+                order: 3,
+                icon: '🕷️',
+                title: 'HYDRA HIDEOUT',
+                subtitle: 'Black Widow\'s Secret Base',
+                clue: 'I found a secret Hydra base… full of steam. Search the place where bubbles dream.'
+            },
+            {
+                order: 4,
+                icon: '🧊',
+                title: 'STARK COLD STORAGE',
+                subtitle: 'Iron Man\'s Tech Vault',
+                clue: 'Jarvis says it\'s too cold here… Look inside where snacks disappear!'
+            },
+            {
+                order: 5,
+                icon: '🌱',
+                title: 'GROOT\'S GARDEN',
+                subtitle: 'Groot\'s Sacred Grove',
+                clue: 'I am Groot. 🌵 Rocket says… your last gift is near the spiky plant!'
+            }
+        ];
+        
+        // Create animated stars with error handling
+        function createStars() {
+            try {
+                const starsContainer = document.getElementById('stars');
+                if (!starsContainer) {
+                    throw new Error('Stars container not found');
+                }
+                
+                const numStars = 150;
+                
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.animationDelay = Math.random() * 3 + 's';
+                    starsContainer.appendChild(star);
+                }
+            } catch (error) {
+                handleError(error, 'createStars');
+            }
+        }
+        
+        // Initialize audio context with proper error handling
+        function initAudioContext() {
+            try {
+                if (!audioContext && audioEnabled) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                return audioContext;
+            } catch (error) {
+                console.warn('Audio not supported:', error);
+                return null;
+            }
+        }
+        
+        // Sound effects with better error handling
+        function playSound(frequency, duration, type = 'sine') {
+            if (!audioEnabled) return;
+            
+            try {
+                const context = initAudioContext();
+                if (!context) return;
+                
+                // Resume audio context if it's suspended
+                if (context.state === 'suspended') {
+                    context.resume();
+                }
+                
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+                oscillator.type = type;
+                
+                gainNode.gain.setValueAtTime(0.3, context.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + duration);
+                
+                oscillator.start(context.currentTime);
+                oscillator.stop(context.currentTime + duration);
+            } catch (error) {
+                console.warn('Could not play sound:', error);
+            }
+        }
+        
+        function playClickSound() {
+            playSound(800, 0.1);
+        }
+        
+        function playSuccessSound() {
+            const notes = [523, 659, 784, 1047];
+            notes.forEach((freq, index) => {
+                setTimeout(() => playSound(freq, 0.2), index * 100);
+            });
+        }
+        
+        function playUnlockSound() {
+            playSound(1200, 0.3, 'square');
+        }
+        
+        function playVictoryMusic() {
+            const melody = [523, 659, 784, 1047, 1319, 1047, 784, 659, 523];
+            melody.forEach((freq, index) => {
+                setTimeout(() => playSound(freq, 0.3), index * 200);
+            });
+        }
+        
+        // View clue function with validation
+        function viewClue(questNumber) {
+            try {
+                if (!questNumber || questNumber < 1 || questNumber > totalQuests) {
+                    throw new Error('Invalid quest number');
+                }
+                
+                const questSection = document.querySelector(`[data-order="${questNumber}"]`);
+                if (!questSection) {
+                    throw new Error(`Quest section ${questNumber} not found`);
+                }
+                
+                playClickSound();
+                
+                // Show clue
+                questSection.classList.add('clue-revealed');
+                
+                // Hide the view clue button
+                const viewBtn = questSection.querySelector('.view-clue-btn');
+                if (viewBtn) {
+                    viewBtn.style.display = 'none';
+                }
+            } catch (error) {
+                handleError(error, 'viewClue');
+            }
+        }
+        
+        // Mark gift as found with validation
+        function markGiftFound(questNumber) {
+            try {
+                if (!questNumber || questNumber < 1 || questNumber > totalQuests) {
+                    throw new Error('Invalid quest number');
+                }
+                
+                const questSection = document.querySelector(`[data-order="${questNumber}"]`);
+                if (!questSection) {
+                    throw new Error(`Quest section ${questNumber} not found`);
+                }
+                
+                playSuccessSound();
+                
+                // Mark current quest as completed
+                questSection.classList.add('completed');
+                questSection.classList.remove('active');
+                completedQuests++;
+                
+                // Update progress
+                updateProgress();
+                
+                // Hide the mark found button
+                const markBtn = questSection.querySelector('.mark-found-btn');
+                if (markBtn) {
+                    markBtn.style.display = 'none';
+                }
+                
+                // Create sparkle effect
+                createSparkleEffect(questSection);
+                
+                // Unlock next quest or complete mission
+                if (questNumber < totalQuests) {
+                    setTimeout(() => unlockNextQuest(questNumber + 1), 1000);
+                } else {
+                    // All quests completed
+                    setTimeout(showMissionComplete, 1500);
+                }
+            } catch (error) {
+                handleError(error, 'markGiftFound');
+            }
+        }
+        
+        // Unlock next quest with validation
+        function unlockNextQuest(questNumber) {
+            try {
+                if (!questNumber || questNumber < 2 || questNumber > totalQuests) {
+                    throw new Error('Invalid quest number for unlock');
+                }
+                
+                const quest = questData[questNumber - 1];
+                if (!quest) {
+                    throw new Error(`Quest data not found for quest ${questNumber}`);
+                }
+                
+                if (!questGrid) {
+                    throw new Error('Quest grid not found');
+                }
+                
+                // Create new quest section
+                const questSection = document.createElement('div');
+                questSection.className = 'quest-section visible active';
+                questSection.setAttribute('data-order', questNumber);
+                
+                questSection.innerHTML = `
+                    <span class="section-icon">${quest.icon}</span>
+                    <h3 class="section-title">${quest.title}</h3>
+                    <p class="section-subtitle">${quest.subtitle}</p>
+                    <div class="section-status">🔓 LOCATION ACCESSIBLE</div>
+                    <button class="view-clue-btn" onclick="viewClue(${questNumber})">🔍 VIEW CLUE</button>
+                    <div class="clue-text">${quest.clue}</div>
+                    <button class="mark-found-btn" onclick="markGiftFound(${questNumber})">✅ MARK GIFT AS FOUND</button>
+                    <div class="gift-found">💥 ${questNumber === totalQuests ? 'Final Gift Found! Mission Complete!' : 'Gift Found! Next Location Unlocked!'}</div>
+                `;
+                
+                questGrid.appendChild(questSection);
+                
+                playUnlockSound();
+                createSparkleEffect(questSection);
+            } catch (error) {
+                handleError(error, 'unlockNextQuest');
+            }
+        }
+        
+        // Create sparkle effect with bounds checking
+        function createSparkleEffect(element) {
+            try {
+                if (!element) {
+                    throw new Error('Element not provided for sparkle effect');
+                }
+                
+                const rect = element.getBoundingClientRect();
+                
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        try {
+                            const sparkle = document.createElement('div');
+                            sparkle.className = 'sparkle';
+                            sparkle.style.left = Math.max(0, rect.left + Math.random() * rect.width) + 'px';
+                            sparkle.style.top = Math.max(0, rect.top + Math.random() * rect.height) + 'px';
+                            document.body.appendChild(sparkle);
+                            
+                            setTimeout(() => {
+                                if (sparkle && sparkle.parentNode) {
+                                    sparkle.remove();
+                                }
+                            }, 1000);
+                        } catch (sparkleError) {
+                            console.warn('Could not create sparkle:', sparkleError);
+                        }
+                    }, i * 50);
+                }
+            } catch (error) {
+                handleError(error, 'createSparkleEffect');
+            }
+        }
+        
+        // Update progress with validation
+        function updateProgress() {
+            try {
+                if (!progressBar || !progressText) {
+                    throw new Error('Progress elements not found');
+                }
+                
+                const progress = Math.min(100, Math.max(0, (completedQuests / totalQuests) * 100));
+                progressBar.style.width = progress + '%';
+                progressText.textContent = `Mission Progress: ${completedQuests}/${totalQuests} Locations Secured`;
+                
+                if (completedQuests === totalQuests) {
+                    progressText.innerHTML = '🎉 ALL LOCATIONS SECURED - MISSION COMPLETE! 🎉';
+                    progressText.style.color = '#00FF00';
+                }
+            } catch (error) {
+                handleError(error, 'updateProgress');
+            }
+        }
+        
+        // Show mission complete screen with validation
+        function showMissionComplete() {
+            try {
+                if (!missionComplete) {
+                    throw new Error('Mission complete element not found');
+                }
+                
+                missionComplete.classList.add('show');
+                createFireworks();
+                playVictoryMusic();
+            } catch (error) {
+                handleError(error, 'showMissionComplete');
+            }
+        }
+        
+        // Create fireworks animation with cleanup
+        function createFireworks() {
+            try {
+                const fireworksContainer = document.getElementById('fireworks');
+                if (!fireworksContainer) {
+                    throw new Error('Fireworks container not found');
+                }
+                
+                const colors = ['#FFD700', '#FF4500', '#00FF00', '#4A90E2', '#FF69B4', '#00FFFF'];
+                const fireworkElements = [];
+                
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        try {
+                            const firework = document.createElement('div');
+                            firework.className = 'firework';
+                            firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                            firework.style.left = Math.random() * 100 + '%';
+                            firework.style.top = Math.random() * 100 + '%';
+                            firework.style.animationDelay = Math.random() * 2 + 's';
+                            fireworksContainer.appendChild(firework);
+                            fireworkElements.push(firework);
+                            
+                            setTimeout(() => {
+                                if (firework && firework.parentNode) {
+                                    firework.remove();
+                                }
+                            }, 2000);
+                        } catch (fireworkError) {
+                            console.warn('Could not create firework:', fireworkError);
+                        }
+                    }, i * 200);
+                }
+                
+                // Cleanup after animation
+                setTimeout(() => {
+                    fireworkElements.forEach(firework => {
+                        if (firework && firework.parentNode) {
+                            firework.remove();
+                        }
+                    });
+                }, 6000);
+            } catch (error) {
+                handleError(error, 'createFireworks');
+            }
+        }
+        
+        // Enhanced mute button functionality
+        function toggleMute() {
+            try {
+                audioEnabled = !audioEnabled;
+                if (muteButton) {
+                    muteButton.textContent = audioEnabled ? '🔊' : '🔇';
+                    muteButton.title = audioEnabled ? 'Mute Sound' : 'Unmute Sound';
+                }
+                
+                // Suspend audio context when muted
+                if (!audioEnabled && audioContext && audioContext.state === 'running') {
+                    audioContext.suspend();
+                } else if (audioEnabled && audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+            } catch (error) {
+                handleError(error, 'toggleMute');
+            }
+        }
+        
+        // Initialize the page with error handling
+        function initializePage() {
+            try {
+                createStars();
+                updateProgress();
+                
+                // Add event listeners with error handling
+                if (muteButton) {
+                    muteButton.addEventListener('click', toggleMute);
+                }
+                
+                // Add mouse sparkle effects with throttling
+                let lastSparkleTime = 0;
+                document.addEventListener('mousemove', function(e) {
+                    try {
+                        const now = Date.now();
+                        if (now - lastSparkleTime > 50 && Math.random() > 0.98) {
+                            lastSparkleTime = now;
+                            
+                            const spark = document.createElement('div');
+                            spark.style.position = 'fixed';
+                            spark.style.left = Math.max(0, e.clientX) + 'px';
+                            spark.style.top = Math.max(0, e.clientY) + 'px';
+                            spark.style.width = '3px';
+                            spark.style.height = '3px';
+                            spark.style.background = '#FFD700';
+                            spark.style.borderRadius = '50%';
+                            spark.style.pointerEvents = 'none';
+                            spark.style.zIndex = '999';
+                            spark.style.animation = 'twinkle 1s ease-out forwards';
+                            document.body.appendChild(spark);
+                            
+                            setTimeout(() => {
+                                if (spark && spark.parentNode) {
+                                    spark.remove();
+                                }
+                            }, 1000);
+                        }
+                    } catch (sparkError) {
+                        console.warn('Mouse sparkle error:', sparkError);
+                    }
+                });
+                
+                // Initialize audio context on first user interaction
+                document.addEventListener('click', function initAudio() {
+                    initAudioContext();
+                    document.removeEventListener('click', initAudio);
+                }, { once: true });
+                
+            } catch (error) {
+                handleError(error, 'initializePage');
+            }
+        }
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            initializePage();
+        }
+        
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            handleError(e.error || new Error(e.message), 'Global');
+        });
+        
+        // Unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            handleError(e.reason || new Error('Unhandled promise rejection'), 'Promise');
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
